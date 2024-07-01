@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: linear-gradient(45deg, #33D7FF, #239AED);
+      color: #eee;
+      user-select: none;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .watermark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .watermark span {
+      font-size: 5rem;
+      font-weight: bold;
+      color: rgba(51, 215, 255, 0.1);
+      user-select: none;
+      white-space: nowrap;
+      transform: rotate(-45deg);
+      position: absolute;
+    }
+
+    .profile-container {
+      width: 450px;
+      height: 400px;
+      border: 1px solid #ffffff22;
+      background-color: #282c34;
+      background: linear-gradient(0deg, rgba(40, 44, 52, 1) 0%, rgba(17, 0, 32, .5) 100%);
+      box-shadow: 0 7px 20px 5px #00000088;
+      border-radius: .7rem;
+      backdrop-filter: blur(7px);
+      -webkit-backdrop-filter: blur(7px);
+      overflow: hidden;
+      transition: .5s all;
+      padding: 1rem;
+      z-index: 1;
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+    }
+
+    .profile-header img {
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      margin-right: 1rem;
+    }
+
+    .profile-header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    .profile-header small {
+      font-size: 0.8rem;
+      background: linear-gradient(45deg, #808080, #33D7FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradient 3s ease infinite;
+      background-size: 200% 200%;
+    }
+
+    @keyframes gradient {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .profile-info {
+      margin-top: 1rem;
+    }
+
+    .profile-info h2 {
+      margin: 0.5rem 0;
+      font-size: 1.2rem;
+      color: #ffffff;
+      border-bottom: 1px solid #33D7FF;
+      padding-bottom: 0.3rem;
+    }
+
+    .profile-info p {
+      margin: 0.2rem 0;
+      color: #ffffff;
+    }
+
+    .roles-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .role-item {
+      display: flex;
+      align-items: center;
+      padding: 0.2rem 0.4rem;
+      border: 1px solid #555;
+      border-radius: 0.3rem;
+      background-color: #333;
+      color: #fff;
+      font-size: 0.8rem;
+    }
+
+    .role-item.aces-subscriber {
+      border: 1px solid #FFD700;
+    }
+
+    .role-item span {
+      margin-left: 0.3rem;
+    }
+
+    .friends-button,
+    .ids-button {
+      display: block;
+      text-align: center;
+      margin: 1rem 0;
+      color: #ffffff;
+      cursor: pointer;
+      position: relative;
+      background: linear-gradient(45deg, #808080, #33D7FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradient 3s ease infinite;
+      background-size: 200% 200%;
+    }
+
+    .friends-list,
+    .ids-list {
+      display: none;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    .friend,
+    .id-item {
+      flex: 1 1 calc(33.333% - 10px);
+      margin-bottom: 10px;
+    }
+
+    .friend a,
+    .id-item a {
+      color: #ffffff;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+    }
+
+    .friend a:hover,
+    .id-item a:hover {
+      text-decoration: underline;
+    }
+
+    /* Watermark pattern */
+    .watermark-pattern {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: repeating-linear-gradient(45deg, rgba(51, 215, 255, 0.1) 0, rgba(51, 215, 255, 0.1) 50px, transparent 50px, transparent 100px),
+        repeating-linear-gradient(-45deg, rgba(51, 215, 255, 0.1) 0, rgba(51, 215, 255, 0.1) 50px, transparent 50px, transparent 100px);
+    }
+
+    .watermark-text {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      pointer-events: none;
+      z-index: -1;
+      color: rgba(51, 215, 255, 0.1);
+      font-size: 5rem;
+      font-weight: bold;
+      transform: rotate(-45deg);
+      user-select: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="watermark">
+    <div class="watermark-pattern"></div>
+    <div class="watermark-text">Rexor</div>
+  </div>
+  <div class="profile-container">
+    <div class="profile-header">
+      <img src="https://picto.gg/image/P4GnqIdV.png" alt="Profile Picture">
+      <div>
+        <h1>Rexor 🐐</h1>
+        <small>(8800000)</small>
+        <p>Bruh • <span>he/him</span></p>
+      </div>
+    </div>
+    <div class="profile-info">
+      <h2>Bio</h2>
+      <p>professional xat.com user and chicken wings eater</p>
+      <h2>Roles</h2>
+      <div class="roles-container">
+        <div class="role-item">👑<span>Owner</span></div>
+        <div class="role-item">🍗<span>Chicken Wing</span></div>
+        <div class="role-item aces-subscriber">⭐<span>Aces Subscriber</span></div>
+        <div class="role-item">💸<span>Broke</span></div>
+      </div>
+    </div>
+    <div class="friends-button" onclick="toggleFriends()">Friends/BFFs</div>
+    <div class="friends-list" id="friendsList">
+      <div class="friend"><a href="https://xat.me/giia">Giia</a></div>
+      <div class="friend"><a href="https://xat.me/reaper">Tiro</a></div>
+      <div class="friend"><a href="https://xat.me/eden">Eden</a></div>
+      <div class="friend"><a href="https://xat.me/antares">Antares</a></div>
+    </div>
+  </div>
+
+  <script>
+    function toggleFriends() {
+      const friendsList = document.getElementById('friendsList');
+      if (friendsList.style.display === 'none' || friendsList.style.display === '') {
+        friendsList.style.display = 'flex';
+      } else {
+        friendsList.style.display = 'none';
+      }
+    }
+
+    function toggleIds() {
+      const idsList = document.getElementById('idsList');
+      if (idsList.style.display === 'none' || idsList.style.display === '') {
+        idsList.style.display = 'flex';
+      } else {
+        idsList.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>
