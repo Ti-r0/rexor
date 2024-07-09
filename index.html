@@ -212,6 +212,101 @@
       transform: rotate(-45deg);
       user-select: none;
     }
+
+    .ids-for-sale-button {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      padding: 10px 15px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    .ids-for-sale-window {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      width: 300px;
+      height: 400px;
+      background-color: #1e1e1e;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      z-index: 1001;
+      display: none;
+      flex-direction: column;
+    }
+
+    .window-header {
+      display: flex;
+      justify-content: flex-end;
+      padding: 5px;
+      background-color: #333;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+
+    .window-header button {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      margin-left: 5px;
+    }
+
+    .window-content {
+      padding: 10px;
+      overflow-y: auto;
+    }
+
+    .window-content h3 {
+      margin-top: 0;
+      color: #fff;
+      text-align: center;
+    }
+
+    .id-item {
+      background-color: #333;
+      color: #fff;
+      padding: 5px;
+      border-radius: 5px;
+      margin: 5px 0;
+      text-align: center;
+    }
+
+    .id-item:hover {
+      background-color: #444;
+    }
+
+    .ids-for-sale-window .window-content::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .ids-for-sale-window .window-content::-webkit-scrollbar-track {
+      background: #333;
+    }
+
+    .ids-for-sale-window .window-content::-webkit-scrollbar-thumb {
+      background: #999;
+      border-radius: 3px;
+    }
+
+    .ids-for-sale-window .window-content::-webkit-scrollbar-thumb:hover {
+      background: #777;
+    }
+
+    .maximized {
+      width: 100% !important;
+      height: 100% !important;
+      top: 0 !important;
+      left: 0 !important;
+      transform: none !important;
+      border-radius: 0 !important;
+    }
   </style>
 </head>
 
@@ -237,9 +332,10 @@
       <div class="roles-container">
         <div class="role-item">👑<span>CEO</span></div>
         <div class="role-item">🍗<span>Chicken Wings Eater</span></div>
-<div class="role-item aces-subscriber">
-  <img src="https://picto.gg/image/0qvtAjCQ.png" alt="Verified" style="width:18px; height:18px; vertical-align:middle;"/>
-  <span>Verified</span></div>
+        <div class="role-item aces-subscriber">
+          <img src="https://picto.gg/image/0qvtAjCQ.png" alt="Verified" style="width:18px; height:18px; vertical-align:middle;" />
+          <span>Verified</span>
+        </div>
         <div class="role-item">💸<span>Brokie</span></div>
       </div>
     </div>
@@ -249,6 +345,26 @@
       <div class="friend"><a href="https://xat.me/reaper">Tiro</a></div>
       <div class="friend"><a href="https://xat.me/eden">Eden</a></div>
       <div class="friend"><a href="https://xat.me/antares">Antares</a></div>
+    </div>
+  </div>
+
+  <button class="ids-for-sale-button" onclick="toggleIdsWindow()">IDs For Sale</button>
+  <div class="ids-for-sale-window" id="idsForSaleWindow">
+    <div class="window-header">
+      <button onclick="minimizeWindow()">_</button>
+      <button onclick="maximizeWindow()">□</button>
+      <button onclick="closeWindow()">×</button>
+    </div>
+    <div class="window-content">
+      <h3>IDs For Sale</h3>
+	  <h5><center>Reglink ready</center></h5>
+      <h4>8-Digit IDs</h4>
+      <div class="id-item">(55837139)</div>
+      <div class="id-item">(59683046)</div>
+      <div class="id-item">(60934391)</div>
+      <div class="id-item">(91911990)</div>
+	  <div class="id-item">(27121997</div>
+	  <div class="id-item">(49635006)</div>
     </div>
   </div>
 
@@ -262,14 +378,77 @@
       }
     }
 
-    function toggleIds() {
-      const idsList = document.getElementById('idsList');
-      if (idsList.style.display === 'none' || idsList.style.display === '') {
-        idsList.style.display = 'flex';
+    function toggleIdsWindow() {
+      const idsForSaleWindow = document.getElementById('idsForSaleWindow');
+      if (idsForSaleWindow.style.display === 'none' || idsForSaleWindow.style.display === '') {
+        idsForSaleWindow.style.display = 'flex';
       } else {
-        idsList.style.display = 'none';
+        idsForSaleWindow.style.display = 'none';
       }
     }
+
+    function minimizeWindow() {
+      const idsForSaleWindow = document.getElementById('idsForSaleWindow');
+      idsForSaleWindow.style.display = 'none';
+      document.querySelector('.ids-for-sale-button').style.display = 'block';
+    }
+
+    function maximizeWindow() {
+      const idsForSaleWindow = document.getElementById('idsForSaleWindow');
+      idsForSaleWindow.classList.toggle('maximized');
+    }
+
+    function closeWindow() {
+      const idsForSaleWindow = document.getElementById('idsForSaleWindow');
+      idsForSaleWindow.style.display = 'none';
+      document.querySelector('.ids-for-sale-button').style.display = 'block';
+    }
+
+    function dragElement(elmnt) {
+      var pos1 = 0,
+        pos2 = 0,
+        pos3 = 0,
+        pos4 = 0;
+      if (document.getElementById(elmnt.id + "header")) {
+        // if present, the header is where you move the DIV from:
+        document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+      } else {
+        // otherwise, move the DIV from anywhere inside the DIV:
+        elmnt.onmousedown = dragMouseDown;
+      }
+
+      function dragMouseDown(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // get the mouse cursor position at startup:
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        document.onmouseup = closeDragElement;
+        // call a function whenever the cursor moves:
+        document.onmousemove = elementDrag;
+      }
+
+      function elementDrag(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // calculate the new cursor position:
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        // set the element's new position:
+        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+      }
+
+      function closeDragElement() {
+        // stop moving when mouse button is released:
+        document.onmouseup = null;
+        document.onmousemove = null;
+      }
+    }
+
+    dragElement(document.getElementById("idsForSaleWindow"));
   </script>
 </body>
 
